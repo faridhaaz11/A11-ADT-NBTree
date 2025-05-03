@@ -3,7 +3,7 @@
 #include "boolean.h"
 
 //Maksimal node yang dapat ditampung dalam array
-#define jml_maks 20
+#define jml_maks 10
 
 //Arah traversal
 #define kebawah 1
@@ -28,10 +28,8 @@ typedef nbtree Isi_Tree[jml_maks+1];
 /***************************/
 void Create_tree(Isi_Tree X, int Jml_Node);
 // Create Non Binary Tree sebanyak Jml_Node
-// Tujuan mengentrykan Non Binary Tree ke array Isi_Tree dengan pola
-Level Order
-// Jml Node adalah banyaknya elemen dalam Tree yang menjadi parameter
-input
+// Tujuan mengentrykan Non Binary Tree ke array Isi_Tree dengan pola Level Order
+// Jml Node adalah banyaknya elemen dalam Tree yang menjadi parameter input
 
 boolean IsEmpty (Isi_Tree P);
 /* Mengirimkan true jika Isi_Tree KOSONG */
