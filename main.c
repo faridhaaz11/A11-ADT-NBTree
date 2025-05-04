@@ -28,10 +28,19 @@ int main() {
         int level;
         switch (choice) {
             case 1:
+            	printf("Traversal PreOrder: ");
+                PreOrder(tree);
+                printf("\n");
                 break;
             case 2:
+            	printf("Traversal InOrder: ");
+                InOrder(tree);
+                printf("\n");
                 break;
             case 3:
+            	printf("Traversal PostOrder: ");
+                PostOrder(tree);
+                printf("\n");
                 break;
             case 4:
                 printf("Traversal Level Order: ");
@@ -42,8 +51,16 @@ int main() {
                 PrintTree(tree);
                 break;
             case 6:
+            	printf("Masukkan nilai node yang ingin dicari: ");
+                scanf(" %c", &searchVal);
+                if (Search(tree, searchVal)) {
+                    printf("Node %c ditemukan dalam tree.\n", searchVal);
+                } else {
+                    printf("Node %c tidak ditemukan dalam tree.\n", searchVal);
+                }
                 break;
             case 7:
+            	printf("Jumlah daun (leaf): %d\n", nbDaun(tree));
                 break;
             case 8:
             	printf("Masukkan nilai node: ");
@@ -59,6 +76,16 @@ int main() {
                 printf("Kedalaman tree: %d\n", Depth(tree));
                 break;
             case 10:
+            	printf("Masukkan dua node yang ingin dibandingkan:\n");
+                printf("Node 1: ");
+                scanf(" %c", &val1);
+                printf("Node 2: ");
+                scanf(" %c", &val2);
+                if (Max(val1, val2) == val1) {
+                    printf("Node dengan nilai lebih besar: %c\n", val1);
+                } else {
+                    printf("Node dengan nilai lebih besar: %c\n", val2);
+                }
                 break;
             case 11:
                 printf("Keluar dari program.\n");
