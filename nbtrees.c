@@ -36,95 +36,51 @@ boolean IsEmpty (Isi_Tree P){
 }
 
 /***** Traversal *****/
+void RecPreOrder(Isi_Tree P, int idx){
+    if (idx == 0) return;
+    printf("%c ", P[idx].info);
+    RecPreOrder(P, P[idx].ps_fs);  
+    RecPreOrder(P, P[idx].ps_nb);  
+}
+
 void PreOrder (Isi_Tree P){
 	if (IsEmpty(P)) return;
+    RecPreOrder(P, 1);
+}
 
-    int stack[jml_maks];
-    int top = -1;
-    stack[++top] = 1; 
+void RecInOrder(Isi_Tree P, int idx){
+    if (idx == 0) return;
 
-    while (top >= 0) {
-        int idx = stack[top--];
-        if (idx == 0) continue;
+    int child = P[idx].ps_fs;
 
-        printf("%c ", P[idx].info); 
-
-        int child = P[idx].ps_fs;
-        int children[jml_maks];
-        int childCount = 0;
-
+    if (child != 0) {
+        RecInOrder(P, child);               
+        printf("%c ", P[idx].info);             
+        child = P[child].ps_nb;                 
         while (child != 0) {
-            children[childCount++] = child;
+            RecInOrder(P, child);
             child = P[child].ps_nb;
         }
-
-        for (int i = childCount - 1; i >= 0; i--) {
-            stack[++top] = children[i];
-        }
+    } else {
+        printf("%c ", P[idx].info);
     }
 }
 
-void InOrder(Isi_Tree P) {
-    if (IsEmpty(P)) return;
-
-    int i;
-    for (i = 1; i <= jml_maks; i++) {
-        if (P[i].ps_pr == nil && P[i].info != '\0') { 
-            break;
-        }
-    }
-
-    int stack[jml_maks];
-    int top = -1;
-    int current = i;
-    int visited[jml_maks + 1] = {0};
-
-    while (current != nil || top != -1) {
-        while (current != nil && !visited[current]) {
-            stack[++top] = current;
-            current = P[current].ps_fs; 
-        }
-
-        if (top != -1) {
-            current = stack[top--];
-
-            if (!visited[current]) {
-                printf("%c ", P[current].info);
-                visited[current] = 1;
-            }
-
-            int first_child = P[current].ps_fs;
-            if (first_child != nil) {
-                current = P[first_child].ps_nb; 
-            } else {
-                current = nil;
-            }
-        }
-    }
+void InOrder (Isi_Tree P){
+	if (IsEmpty(P)) return;
+    RecInOrder(P, 1);
 }
 
+void RecPostOrder(Isi_Tree P, int idx) {
+    if (idx == 0) return;
+    RecPostOrder(P, P[idx].ps_fs);
+    RecPostOrder(P, P[idx].ps_nb);
+    printf("%c ", P[idx].info);
+}
 
 void PostOrder (Isi_Tree P){
 	if (IsEmpty(P)) return;
-
-    int stack1[jml_maks], stack2[jml_maks];
-    int top1 = -1, top2 = -1;
-    stack1[++top1] = 1;
-
-    while (top1 != -1) {
-        int idx = stack1[top1--];
-        stack2[++top2] = idx;
-
-        int child = P[idx].ps_fs;
-        while (child != 0) {
-            stack1[++top1] = child;
-            child = P[child].ps_nb;
-        }
-    }
-
-    while (top2 != -1) {
-        printf("%c ", P[stack2[top2--]].info);
-    }
+    RecPostOrder(P, 1);
 }
 
 void Level_order(Isi_Tree X, int Maks_node){
@@ -151,22 +107,24 @@ void PrintTree (Isi_Tree P){
 	printf("\nSeluruh Node pada Non Binary Tree:\n");
     count = nbElmt(P);
     for (i = 1; i <= count; i++) {
-        printf("\n--> Indeks ke-%d\n", i);
-        printf("info array ke %d    : %c\n", i, P[i].info);
+        printf("--> Indeks ke-%d\n", i);
+        printf("\ninfo array ke %d    : %c\n", i, P[i].info);
         printf("first son array ke %d   : %d\n", i, P[i].ps_fs);
         printf("next brother array ke %d : %d\n", i, P[i].ps_nb);
         printf("parent array ke %d    : %d\n", i, P[i].ps_pr);
     }
 }
 
+boolean RecSearch(Isi_Tree P, int idx, infotype X) {
+    if (idx == 0) return false;
+    if (P[idx].info == X) return true;
+    if (RecSearch(P, P[idx].ps_fs, X)) return true;
+    return RecSearch(P, P[idx].ps_nb, X);
+}
+
 boolean Search (Isi_Tree P, infotype X){
-	int i;
-    for (i = 1; i <= jml_maks; i++) {
-        if (P[i].info == X) {
-            return true;
-        }
-    }
-    return false;
+	if (IsEmpty(P)) return false;
+    return RecSearch(P, 1, X);
 }
 
 int nbElmt (Isi_Tree P){
@@ -183,16 +141,24 @@ int nbElmt (Isi_Tree P){
     return count;
 }
 
-int nbDaun (Isi_Tree P){
-	int i, count = 0;
-    for (i = 1; i <= jml_maks; i++) {
-        if (P[i].info != '\0' && P[i].ps_fs == 0) {
-            count++; // Tidak punya anak, berarti daun
-        }
+int RecNbDaun(Isi_Tree P, int idx) {
+    if (idx == 0) return 0;
+
+    int count = 0;
+    if (P[idx].ps_fs == 0) {
+        count = 1;
+    } else {
+        count = RecNbDaun(P, P[idx].ps_fs);
     }
-    return count;
+
+    return count + RecNbDaun(P, P[idx].ps_nb);
 }
-	
+
+int nbDaun (Isi_Tree P){
+	if (IsEmpty(P)) return 0;
+    return RecNbDaun(P, 1);
+}
+
 int Level (Isi_Tree P, infotype X){
 	int total, currentLevel, nodeIndex, i;
     

@@ -35,16 +35,19 @@ boolean IsEmpty (Isi_Tree P);
 /* Mengirimkan true jika Isi_Tree KOSONG */
 
 /***** Traversal *****/
+void RecPreOrder(Isi_Tree P, int idx);
 void PreOrder (Isi_Tree P);
 /* Traversal PreOrder */
 /* IS : P terdefinisi */
 /* FS : Semua simpul P sudah ditampilkan secara PreOrder : Parent,
 fs, nb */
+void RecInOrder(Isi_Tree P, int idx);
 void InOrder (Isi_Tree P);
 /* Traversal InOrder */
 /* IS : P terdefinisi */
 /* FS : Semua simpul P sudah ditampilkan secara InOrder : fs, Parent,
 Sisa anak lain */
+void RecPostOrder(Isi_Tree P, int idx);
 void PostOrder (Isi_Tree P);
 /* Traversal PostOrder */
 /* IS : P terdefinisi */
@@ -58,11 +61,13 @@ void PrintTree (Isi_Tree P);
 /* IS : P terdefinisi */
 /* FS : Semua simpul P sudah ditulis ke layar */
 /***** Search *****/
+boolean RecSearch(Isi_Tree P, int idx, infotype X);
 boolean Search (Isi_Tree P, infotype X);
 /* Mengirimkan true jika ada node dari P yang bernilai X *
 /***** Fungsi Lain *****/
 int nbElmt (Isi_Tree P);
 /* Mengirimkan banyak elemen (node) di pohon non biner P */
+int RecNbDaun(Isi_Tree P, int idx);
 int nbDaun (Isi_Tree P);
 /* Mengirimkan banyak daun (node) pohon non biner P */
 int Level (Isi_Tree P, infotype X);
